@@ -4,7 +4,7 @@ import me.dio.credit.application.system.entity.Address
 import me.dio.credit.application.system.entity.Customer
 import java.math.BigDecimal
 
-class CustomerDTO (
+data class CustomerDTO (
     val firstName: String,
     val lastName: String,
     val cpf: String,
