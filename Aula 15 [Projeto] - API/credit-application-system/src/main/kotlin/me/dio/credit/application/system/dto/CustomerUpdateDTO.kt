@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull
 import me.dio.credit.application.system.entity.Customer
 import java.math.BigDecimal
 
-data class CustomerUpdateDTO (
+data class CustomerUpdateDTO(
     @field:NotEmpty(message = "Name should not be empty.")
     val firstName: String,
     @field:NotEmpty(message = "Name should not be empty.")
@@ -16,7 +16,7 @@ data class CustomerUpdateDTO (
     val zipCode: String,
     @field:NotEmpty(message = "Street should not be empty")
     val street: String
-){
+) {
     fun toEntity(customer: Customer): Customer {
         customer.firstName = this.firstName
         customer.lastName = this.lastName

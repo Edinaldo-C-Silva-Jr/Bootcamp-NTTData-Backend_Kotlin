@@ -13,7 +13,7 @@ data class CustomerViewDTO(
     val zipcode: String,
     val street: String
 ) {
-    constructor(customer: Customer): this (
+    constructor(customer: Customer) : this(
         firstName = customer.firstName,
         lastName = customer.lastName,
         cpf = customer.cpf,

@@ -8,7 +8,7 @@ import me.dio.credit.application.system.entity.Customer
 import org.hibernate.validator.constraints.br.CPF
 import java.math.BigDecimal
 
-data class CustomerDTO (
+data class CustomerDTO(
     @field:NotEmpty(message = "Name should not be empty.")
     val firstName: String,
     @field:NotEmpty(message = "Name should not be empty.")
