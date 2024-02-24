@@ -25,7 +25,7 @@ class CustomerController(
     fun saveCustomer(@RequestBody customerDTO: CustomerDTO): ResponseEntity<String> {
         val savedCustomer = this.customerService.save(customerDTO.toEntity())
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body("Customer {${savedCustomer.email}} saved!")
+            .body("Customer ${savedCustomer.email} saved!")
     }
 
     @GetMapping("/{id}")

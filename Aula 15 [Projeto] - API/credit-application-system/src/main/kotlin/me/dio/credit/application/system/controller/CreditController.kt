@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import java.util.UUID
 import java.util.stream.Collectors
@@ -25,19 +26,19 @@ class CreditController(
     fun saveCredit(@RequestBody creditDTO: CreditDTO): ResponseEntity<String> {
         val credit: Credit = this.creditService.save(creditDTO.toEntity())
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body("Credit ${credit.creditCode} - Customer ${credit.customer?.firstName} saved!")
+            .body("Credit of ${credit.creditValue} for Customer ${credit.customer?.firstName} saved!")
     }
 
-    @GetMapping("/{customerId}")
+    @GetMapping("/from/{customerId}")
     fun findAllByCustomerID(@PathVariable customerId: Long): ResponseEntity<List<CreditViewListDTO>> {
         val creditViewList = this.creditService.findAllByCustomer(customerId).stream()
             .map { credit: Credit -> CreditViewListDTO(credit) }.collect(Collectors.toList())
         return ResponseEntity.status(HttpStatus.OK).body(creditViewList)
     }
 
-    @GetMapping("/{customerId}/{creditCode}")
+    @GetMapping("/{creditCode}")
     fun findByCreditCode(
-        @PathVariable customerId: Long,
+        @RequestParam(value = "customerId") customerId: Long,
         @PathVariable creditCode: UUID
     ): ResponseEntity<CreditViewDTO> {
         val credit: Credit = this.creditService.findByCreditCode(creditCode, customerId)
