@@ -1,5 +1,6 @@
 package me.dio.credit.application.system.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import me.dio.credit.application.system.dto.CustomerDTO
 import me.dio.credit.application.system.dto.CustomerUpdateDTO
@@ -23,6 +24,10 @@ import org.springframework.web.bind.annotation.RestController
 class CustomerController(
     private val customerService: CustomerService
 ) {
+    @Operation(
+        summary = "Saves a customer",
+        description = "Receives the data of a customer and saves it. The e-mail and CPF fields have to contain valid information, and no fields can be empty."
+    )
     @PostMapping
     fun saveCustomer(@RequestBody @Valid customerDTO: CustomerDTO): ResponseEntity<String> {
         val savedCustomer = this.customerService.save(customerDTO.toEntity())
@@ -30,18 +35,30 @@ class CustomerController(
             .body("Customer ${savedCustomer.email} saved!")
     }
 
+    @Operation(
+        summary = "Finds a customer by Id.",
+        description = "Receives a customer Id and searches for a customer, returning their data if the id exists."
+    )
     @GetMapping("/{id}")
     fun findById(@PathVariable id: Long): ResponseEntity<CustomerViewDTO> {
         val customer: Customer = this.customerService.findById(id)
         return ResponseEntity.status(HttpStatus.OK).body(CustomerViewDTO(customer))
     }
 
+    @Operation(
+        summary = "Deletes a customer by Id",
+        description = "Receives a customer Id and searches for a customer. If one is found, deletes it."
+    )
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCustomer(@PathVariable id: Long) {
         this.customerService.delete(id)
     }
 
+    @Operation(
+        summary = "Updates a customer",
+        description = "Receives a customer Id and searches for a customer. If one is found, updates it with the customer data received. No fields can be empty."
+    )
     @PatchMapping("/{id}")
     fun updateCustomer(
         @PathVariable id: Long,

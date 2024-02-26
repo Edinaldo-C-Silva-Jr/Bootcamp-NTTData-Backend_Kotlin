@@ -1,5 +1,6 @@
 package me.dio.credit.application.system.controller
 
+import io.swagger.v3.oas.annotations.Operation
 import jakarta.validation.Valid
 import me.dio.credit.application.system.dto.CreditDTO
 import me.dio.credit.application.system.dto.CreditViewDTO
@@ -23,6 +24,10 @@ import java.util.stream.Collectors
 class CreditController(
     private val creditService: CreditService
 ) {
+    @Operation(
+        summary = "Saves a Credit",
+        description = "Receives the data of a credit and saves it. The date should be a future date, and the number of installments can't be higher than 48."
+    )
     @PostMapping
     fun saveCredit(@RequestBody @Valid creditDTO: CreditDTO): ResponseEntity<String> {
         val credit: Credit = this.creditService.save(creditDTO.toEntity())
@@ -30,6 +35,10 @@ class CreditController(
             .body("Credit of ${credit.creditValue} for Customer ${credit.customer?.firstName} saved!")
     }
 
+    @Operation(
+        summary = "Recovers all credits from a customer",
+        description = "Receives the a customer Id and searches for all credits of that customer, returning them in a list. Returns an empty list if the customer has no credits."
+    )
     @GetMapping("/from/{customerId}")
     fun findAllByCustomerID(@PathVariable customerId: Long): ResponseEntity<List<CreditViewListDTO>> {
         val creditViewList = this.creditService.findAllByCustomer(customerId).stream()
@@ -37,6 +46,10 @@ class CreditController(
         return ResponseEntity.status(HttpStatus.OK).body(creditViewList)
     }
 
+    @Operation(
+        summary = "Recovers a credit by the credit code",
+        description = "Receives a Credit Code and searches for a credit, returning a credit if found."
+    )
     @GetMapping("/{creditCode}")
     fun findByCreditCode(
         @RequestParam(value = "customerId") customerId: Long,
