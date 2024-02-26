@@ -36,7 +36,7 @@ class CreditController(
     }
 
     @Operation(
-        summary = "Recovers all credits from a customer",
+        summary = "Finds all credits from a customer",
         description = "Receives the a customer Id and searches for all credits of that customer, returning them in a list. Returns an empty list if the customer has no credits."
     )
     @GetMapping("/from/{customerId}")
@@ -47,8 +47,8 @@ class CreditController(
     }
 
     @Operation(
-        summary = "Recovers a credit by the credit code",
-        description = "Receives a Credit Code and searches for a credit, returning a credit if found."
+        summary = "Finds a credit by the credit code",
+        description = "Receives a Credit Code and a customer Id and searches for a credit. Returns the credit if it's found and its owner matches the Id passed."
     )
     @GetMapping("/{creditCode}")
     fun findByCreditCode(
