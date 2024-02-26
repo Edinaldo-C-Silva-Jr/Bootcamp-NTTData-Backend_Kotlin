@@ -29,10 +29,10 @@ class CreditController(
         description = "Receives the data of a credit and saves it. The date should be a future date, and the number of installments can't be higher than 48."
     )
     @PostMapping
-    fun saveCredit(@RequestBody @Valid creditDTO: CreditDTO): ResponseEntity<String> {
-        val credit: Credit = this.creditService.save(creditDTO.toEntity())
+    fun saveCredit(@RequestBody @Valid creditDTO: CreditDTO): ResponseEntity<CreditViewDTO> {
+        val savedCredit: Credit = this.creditService.save(creditDTO.toEntity())
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body("Credit of ${credit.creditValue} for Customer ${credit.customer?.firstName} saved!")
+            .body(CreditViewDTO(credit = savedCredit))
     }
 
     @Operation(

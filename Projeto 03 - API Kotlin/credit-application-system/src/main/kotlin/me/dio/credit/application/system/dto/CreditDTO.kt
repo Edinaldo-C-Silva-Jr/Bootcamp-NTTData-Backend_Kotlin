@@ -3,6 +3,7 @@ package me.dio.credit.application.system.dto
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.Future
 import jakarta.validation.constraints.Max
+import jakarta.validation.constraints.Min
 import jakarta.validation.constraints.NotNull
 import me.dio.credit.application.system.entity.Credit
 import me.dio.credit.application.system.entity.Customer
@@ -15,10 +16,11 @@ data class CreditDTO(
     @field:NotNull(message = "Value must not be null.")
     val creditValue: BigDecimal,
     @field:Schema(description = "The day for the payment of the first installment", type = "LocalDate")
-    @field:Future(message = "Date should not be in the past.")
+    @field:Future(message = "Date should be in the future.")
     val dayFirstInstallment: LocalDate,
     @field:Schema(description = "The number of installments the payment will be done in", type = "Int", maximum = "48")
     @field:Max(value = 48, message = "Number of Installments can't be higher than 48.")
+    @field:Min(value = 1, message = "Number of Installments should be at least 1.")
     val numberOfInstallments: Int,
     @field:Schema(description = "The ID of the customer who owns the credit", type = "Long", example = "1")
     @field:NotNull(message = "Customer ID must not be null.")
