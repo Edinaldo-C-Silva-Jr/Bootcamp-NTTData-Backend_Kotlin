@@ -43,12 +43,13 @@ class CustomerServiceTest {
 
     @Test
     fun `should find customer by id`() {
+        //given
         val fakeId: Long = Random().nextLong()
         val fakeCustomer: Customer = buildCustomer(id = fakeId)
         every { customerRepository.findById(fakeId) } returns Optional.of(fakeCustomer)
-
+        //when
         val actual: Customer = customerService.findById(fakeId)
-
+        //then
         Assertions.assertThat(actual).isNotNull
         Assertions.assertThat(actual).isExactlyInstanceOf(Customer::class.java)
         Assertions.assertThat(actual).isSameAs(fakeCustomer)
@@ -57,9 +58,10 @@ class CustomerServiceTest {
 
     @Test
     fun `should throw BusinessException on an invalid id`() {
+        //given
         val fakeId: Long = Random().nextLong()
         every { customerRepository.findById(fakeId) } returns Optional.empty()
-
+        //then
         Assertions.assertThatExceptionOfType(BusinessException::class.java)
             .isThrownBy { customerService.findById(fakeId) }
             .withMessage("Id $fakeId not found!")
@@ -67,14 +69,15 @@ class CustomerServiceTest {
     }
 
     @Test
-    fun `should delete customer by id`(){
+    fun `should delete customer by id`() {
+        //given
         val fakeId: Long = Random().nextLong()
         val fakeCustomer: Customer = buildCustomer(id = fakeId)
         every { customerRepository.findById(fakeId) } returns Optional.of(fakeCustomer)
         every { customerRepository.delete(fakeCustomer) } just runs
-
+        //when
         customerService.delete(fakeId)
-
+        //then
         verify(exactly = 1) { customerRepository.findById(fakeId) }
         verify(exactly = 1) { customerRepository.delete(fakeCustomer) }
     }
