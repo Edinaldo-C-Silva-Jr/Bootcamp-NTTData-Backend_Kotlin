@@ -18,9 +18,11 @@ data class CustomerViewDTO(
     @field:Schema(description = "The email of the customer", type = "String", example = "joao@example.com")
     val email: String,
     @field:Schema(description = "The CEP of the customer (brazilian zip code)", type = "String", example = "12345-000")
-    val zipcode: String,
+    val zipCode: String,
     @field:Schema(description = "The street name of the customer's address", type = "String")
-    val street: String
+    val street: String,
+    @field:Schema(description = "The unique identifier of the customer", type = "Long", example = "1")
+    val id: Long?
 ) {
     constructor(customer: Customer) : this(
         firstName = customer.firstName,
@@ -28,8 +30,9 @@ data class CustomerViewDTO(
         cpf = customer.cpf,
         income = customer.income,
         email = customer.email,
-        zipcode = customer.address.zipCode,
-        street = customer.address.street
+        zipCode = customer.address.zipCode,
+        street = customer.address.street,
+        id = customer.id
     )
 
 }

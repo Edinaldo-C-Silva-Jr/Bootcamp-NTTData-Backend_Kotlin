@@ -29,10 +29,10 @@ class CustomerController(
         description = "Receives the data of a customer and saves it. The e-mail and CPF fields have to contain valid information, and no fields can be empty."
     )
     @PostMapping
-    fun saveCustomer(@RequestBody @Valid customerDTO: CustomerDTO): ResponseEntity<String> {
+    fun saveCustomer(@RequestBody @Valid customerDTO: CustomerDTO): ResponseEntity<CustomerViewDTO> {
         val savedCustomer = this.customerService.save(customerDTO.toEntity())
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body("Customer ${savedCustomer.email} saved!")
+            .body(CustomerViewDTO(customer = savedCustomer))
     }
 
     @Operation(

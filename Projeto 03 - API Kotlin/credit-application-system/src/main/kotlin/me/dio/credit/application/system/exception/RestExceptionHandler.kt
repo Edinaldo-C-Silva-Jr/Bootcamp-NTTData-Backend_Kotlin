@@ -37,7 +37,7 @@ class RestExceptionHandler {
             ExceptionDetails(
                 title = "Conflict: Consult the documentation.",
                 timeStamp = LocalDateTime.now(),
-                status = HttpStatus.BAD_REQUEST.value(),
+                status = HttpStatus.CONFLICT.value(),
                 exception = ex.javaClass.toString(),
                 details = mutableMapOf(ex.cause.toString() to ex.message)
             ), HttpStatus.CONFLICT
